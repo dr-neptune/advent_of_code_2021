@@ -1,0 +1,5 @@
+#+TITLE: Advent of Code 2021 Solutions
+
+Solutions for [[https://adventofcode.com/][Advent of Code 2021]]
+
+An attempt is being made to also learn [[https://toolz.readthedocs.io/en/latest/index.html][toolz]]
