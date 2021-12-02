@@ -3,7 +3,7 @@ from typing import List
 from toolz import first, second, drop
 import sys
 # Ouroboros should be ashamed of python's recursion limit being 1000
-sys.setrecursionlimit(5000)
+sys.setrecursionlimit(1004)
 
 # io
 with open('input.txt') as f:
