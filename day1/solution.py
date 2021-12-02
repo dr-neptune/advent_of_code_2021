@@ -7,7 +7,7 @@ from operator import gt
 with open('input.txt') as f:
     depths = [int(i) for i in f.read().splitlines()]
 
-def chunked_operation(op_fn: Callable, support: List[int], chunk_size: int):
+def chunked_operation(op_fn: Callable, support: List[int], chunk_size: int) -> List[int]:
     """
     Given a list, break it into chunk_size chunks and apply the op_fn to each chunk
     """
