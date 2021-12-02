@@ -1,7 +1,6 @@
 from numpy import sign
 from toolz import sliding_window
 from typing import List, Callable
-from operator import gt
 
 # IO
 with open('input.txt') as f:
@@ -20,6 +19,6 @@ triple_sums = chunked_operation(sum, depths, 3)
 
 if __name__ == '__main__':
     # solution for part 1
-    sum([x for x in get_sgn_list(depths) if gt(x, 0)])
+    sum([x for x in get_sgn_list(depths) if x > 0])
     # solution for part 2
-    sum([x for x in get_sgn_list(triple_sums) if gt(x, 0)])
+    sum([x for x in get_sgn_list(triple_sums) if x > 0])
