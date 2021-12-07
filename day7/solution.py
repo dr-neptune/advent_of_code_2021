@@ -18,7 +18,7 @@ for i in range(min(crabs), max(crabs) + 1):
     for c in crabs:
         # calculate distances
         n = abs(c - i)
-        fuel += int((n * (n + 1)) / 2)
+        fuel += (n * (n + 1)) // 2
     fuels[i] = fuel
 
 print(min(fuels.values()))
@@ -37,6 +37,6 @@ for central_point in central_points:
     fuel = 0
     for c in crabs:
         n = abs(c - central_point)
-        fuel += int((n * (n + 1)) / 2)
+        fuel += (n * (n + 1)) // 2
     solutions.append(fuel)
 print(min(solutions))
