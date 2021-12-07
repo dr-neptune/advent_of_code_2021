@@ -22,3 +22,15 @@ for i in range(min(crabs), max(crabs) + 1):
     fuels[i] = fuel
 
 print(min(fuels.values()))
+
+# part 3: mean girls edition
+from statistics import mean
+from math import floor
+
+central_point = floor(mean(crabs) - 1/2)
+
+fuel = 0
+for c in crabs:
+    n = abs(c - central_point)
+    fuel += int((n * (n + 1)) / 2)
+print(fuel)
