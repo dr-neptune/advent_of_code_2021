@@ -1,11 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
 
-# idea
-# give each fish a dataclass
-# the object will do the following:
-# whenever its internal timer hits 0, create a new fish and set internal timer
-# for each day, call next on a generator
 
 with open('input.txt') as f:
     fish = [int(i) for i in f.read().split(',')]
