@@ -1,6 +1,5 @@
-from operator import eq, add
 from typing import Callable, List, Dict
-from toolz import concat, first, second, frequencies, keyfilter, valmap, itemmap, curry
+from toolz.curried import concat, first, second, frequencies, keyfilter, valmap, itemmap, assoc, merge
 
 digi = {0: 6,
         1: 2,  #
@@ -53,6 +52,13 @@ def decoder(message: str) -> int:
     return result
 
 
+def get_atoms(signal_patterns: List[str], cipher: Dict[int, str]):
+    """Gets the atoms of matching, 1, 4, 7, 8 and adds them to the cipher"""
+    fil = lambda ln: first(filter(lambda s: len(s) == ln, signal_patterns))
+    cipher = merge(map(lambda k: assoc({})(k, fil(digi[k])), [1, 4, 7, 8]))
+    return cipher
+
+
 def get_cipher(inp: List[str]) -> Dict[str, int]:
     @curry
     def compare(inp: str, to: int) -> str:
@@ -63,8 +69,7 @@ def get_cipher(inp: List[str]) -> Dict[str, int]:
     def get_atoms(signal_patterns: List[str], cipher: Dict[int, str]):
         """Gets the atoms of matching, 1, 4, 7, 8 and adds them to the cipher"""
         fil = lambda ln: first(filter(lambda s: len(s) == ln, signal_patterns))
-        for i in [1, 4, 7, 8]:
-            cipher[i] = fil(digi[i])
+        cipher = merge(map(lambda k: assoc({})(k, fil(digi[k])), [1, 4, 7, 8]))
         return cipher
 
     cipher = get_atoms(inp, {})
