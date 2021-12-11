@@ -52,13 +52,6 @@ def decoder(message: str) -> int:
     return result
 
 
-def get_atoms(signal_patterns: List[str], cipher: Dict[int, str]):
-    """Gets the atoms of matching, 1, 4, 7, 8 and adds them to the cipher"""
-    fil = lambda ln: first(filter(lambda s: len(s) == ln, signal_patterns))
-    cipher = merge(map(lambda k: assoc({})(k, fil(digi[k])), [1, 4, 7, 8]))
-    return cipher
-
-
 def get_cipher(inp: List[str]) -> Dict[str, int]:
     @curry
     def compare(inp: str, to: int) -> str:
