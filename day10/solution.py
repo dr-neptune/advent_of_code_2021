@@ -56,6 +56,31 @@ for fst in syn.split('\n'):
         for s in stack:
             autocomplete.append(match_dict[s])
         results.append("".join(autocomplete))
+        stack = []
 
 get_points = lambda ls: reduce(lambda x, y: (5 * x) + y, [add_scores[i] for i in ls], 0)
-nth((len(results) - 3) // 2, sorted(map(get_points, results)))
+nth(len(results) // 2, sorted(map(get_points, results)))
+
+
+add_scores = {')': 1,
+              ']': 2,
+              '}': 3,
+              '>': 4}
+
+results = [];stack = []
+for fst in syn.split('\n'):
+    for c in fst:
+        if c in match_dict:
+            stack.append(c)
+        else:
+            if c == match_dict[stack.pop()]:
+                pass
+            else:
+                stack = [] #error
+                break
+    if stack:
+        results.append([match_dict[s] for s in stack[::-1]])
+        stack = []
+
+get_points = lambda ls: reduce(lambda x, y: (5 * x) + y, [add_scores[i] for i in ls])
+print(nth(len(results) // 2, sorted(map(get_points, results))))
