@@ -1,31 +1,31 @@
-from typing import Tuple
+import numpy as np
+from operator import lt
+from typing import Tuple, List
 
 # IO
 with open('input.txt') as f:
     lava = f.read()
 
-lv = """2199943210
-3987894921
-9856789892
-8767896789
-9899965678"""
+lava_shape = len(lava.split('\n')[0])
 
-cave = np.array([int(c) for c in lv if c != '\n']).reshape(10,5)
+cave = np.array([int(c) for c in lava if c != '\n']).reshape(lava_shape, lava_shape)
 
+def manhattan_distance(origin: Tuple[int], location: Tuple[int]) -> int:
+    return abs(origin[0] - location[0]) + abs(origin[1] - location[1])
 
-def get_adjacent_cell_indices(row: int, col:int, shape: Tuple[int]) -> List[Tuple[int, int]]:
+def get_adjacent_cell_indices(row: int, col:int, shape: Tuple[int], plus_only: bool = True) -> List[Tuple[int, int]]:
     def neighbors(val, val_max):
         vals = []
         if val == 0:
             vals.append(0)
             vals.append(1)
         elif val == val_max - 1:
-            vals.append(row)
-            vals.append(row - 1)
+            vals.append(val)
+            vals.append(val - 1)
         else:
-            vals.append(row)
-            vals.append(row - 1)
-            vals.append(row + 1)
+            vals.append(val)
+            vals.append(val - 1)
+            vals.append(val + 1)
         return vals
     results = []
     rowvals = neighbors(row, shape[0])
@@ -33,22 +33,17 @@ def get_adjacent_cell_indices(row: int, col:int, shape: Tuple[int]) -> List[Tupl
     for i in rowvals:
         for j in colvals:
             results.append((i, j))
+    if plus_only:
+        results = [i for i in results if manhattan_distance((row, col), i) < 2 and i != (row, col)]
     return results
 
+# check if all the adjacents are higher than the current spot
+low_points = []
+for irow, icol in np.ndindex(cave.shape):
+    results = get_adjacent_cell_indices(irow, icol, cave.shape)
+    if all(map(lambda x: lt(cave[irow, icol], x), [cave[i[0], i[1]] for i in results])):
+        low_points.append(cave[irow, icol])
 
-get_adjacent_cell_indices(0, 0, cave.shape)
+sum([i + 1 for i in low_points])
 
-
-
-print(get_adjacent_cell_indices(0, 0, cave.shape))
-
-[manhattan_distance((0, 0), i) for i in get_adjacent_cell_indices(0, 1, cave.shape)]
-
-def manhattan_distance(origin: Tuple[int], location: Tuple[int]) -> int:
-    return abs(origin[0] - location[0]) + abs(origin[1] - location[1])
-
-
-
-
-print(abs(0 - 1) + abs(0 - 1))
-print(abs(0 - 1) + abs(0 - 0))
+# part 2
